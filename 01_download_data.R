@@ -1,6 +1,8 @@
 source("00_initiate.R")
 
-neweeks <- 1:3
+## Change oldweek from NULL to newweek
+## and newweek to NULL when finishing updating
+neweeks <- 1:24
 oldweeks <- NULL
 
 dd <- "input_data/pulse"

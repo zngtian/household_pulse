@@ -1,6 +1,6 @@
 source("00_initiate.R")
 
-f <- "output_data/hps_individual_week1_3.rds"
+f <- "output_data/hps_individual_week1_24.rds"
 df.puf <- readRDS(f)
 
 ## select variables of interest
