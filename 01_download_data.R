@@ -2,8 +2,8 @@ source("00_initiate.R")
 
 ## Change oldweek from NULL to newweek
 ## and newweek to NULL when finishing updating
-neweeks <- 1:24
-oldweeks <- NULL
+neweeks <- NULL
+oldweeks <- 1:24
 
 dd <- "input_data/pulse"
 if (!dir.exists(dd)) dir.create(dd)
@@ -42,4 +42,3 @@ saveRDS(df.puf, f.out)
 
 ## f.out <- file.path("output_data", sprintf("hps_individual_week%d_%d.rds", 1, max(allweeks)))
 ## write_csv(df.puf, path = f.out)
-
