@@ -1,9 +1,9 @@
-source("00_initiate.R")
+source("cmd_initiate.R")
 
 ## Change oldweek from NULL to newweek
 ## and newweek to NULL when finishing updating
-neweeks <- NULL
-oldweeks <- 1:24
+neweeks <- 26:27
+oldweeks <- 1:25
 
 dd <- "input_data/pulse"
 if (!dir.exists(dd)) dir.create(dd)
