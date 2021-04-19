@@ -51,8 +51,7 @@ tb.vars <- all.vars %>%
   pivot_wider(id_cols = vars,
               names_from = week,
               values_from = value,
-              names_sep = "_")
-
+              names_prefix = "week_")
 write_csv(tb.vars, "documentation/variable_available.csv")
 
 ## row-bind every data frame and save -----------------------------------------
