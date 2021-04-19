@@ -2,7 +2,7 @@ input_data/
 output_data/
 temp/
 archive/
-
+temp*
 
 .DS_Store
 .idea

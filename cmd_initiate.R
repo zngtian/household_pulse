@@ -1,5 +1,6 @@
 rm(list = ls())
 packages <- c("readxl",
+              "haven",
               "tidyverse")
 
 ## Now load or install&load all
@@ -17,5 +18,4 @@ dirs <- c("input_data",
           "output_data")
 tmp <- lapply(dirs, function(x) if (!dir.exists(x)) dir.create(x))
 
-source("functions.R")
-
+## source("functions.R")
