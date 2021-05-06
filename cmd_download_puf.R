@@ -62,5 +62,5 @@ names(df.puf) <- str_to_lower(names(df.puf))
 f.out <- file.path("output_data", sprintf("hps_individual_week%d_%d.rds", 1, max(allweeks)))
 saveRDS(df.puf, f.out)
 
-## f.out <- file.path("output_data", sprintf("hps_individual_week%d_%d.rds", 1, max(allweeks)))
+## f.out <- file.path("output_data", sprintf("hps_individual_week%d_%d.csv", 1, max(allweeks)))
 ## write_csv(df.puf, path = f.out)
