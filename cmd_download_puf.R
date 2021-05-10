@@ -2,7 +2,7 @@
 
 ## Downloading ----------------------------------------------------------------
 
-dd <- "input_data/pulse"
+dd <- "input_data/pulse/sas"
 if (!dir.exists(dd)) dir.create(dd, recursive = TRUE)
 
 ## This is a helper function to handle downloading error

@@ -1,6 +1,6 @@
 rm(list = ls())
 ## change your path to the root directory of the project
-root.dir <- "/Users/ztian/myWork/temp/household_pulse"
+root.dir <- "/Users/ztian/OneDrive - The Pennsylvania State University/research/database/pulse_household"
 setwd(root.dir)
 
 ## load packages and create directories

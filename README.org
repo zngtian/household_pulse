@@ -12,15 +12,28 @@ download the zipped SAS file for each week, unzip and read the data into R, and
 save the output data.
 
 * Explanation of the R code.
+- [[file:master.R][master.R]] :: Run this file to complete the whole process.
+  + When it is your first time to run the code, do the following
+    1) Change the root directory (Line 3).
+    2) Change ~neweeks~ to ~1:T~ where ~T~ is the latest week of the HPS survey.
+    3) Change ~oldweeks~ to ~NULL~.
+    4) After running the code, change ~neweeks~ to ~NULL~, and change ~oldweeks~ to
+       ~1:T~.
+    5) If you want the output data file is a CSV file, you need to change
+       ~output.format~ to ~"csv"~ (Line 21).
 
+  + Whenever the PUF for new weeks is available, change ~neweeks~ to these new weeks.
+
+  + IMPORTANT! You may fail to download some files which are big so that the
+    "timeout" of downloading is used up. If it happens, unpon finishing the
+    downloading process, there will be a message that shows downloading for
+    which weeks fails. Then, you need to manually download them, save and rename
+    them to the folder of =input_data/pulse/sas/weekTT.zip= where =TT= is the
+    two-digit zero-padding integer for the week.
+
+Two component files in ~master.R~ are
 - =cmd_initiate.R= :: Set up the project folders.
 - =cmd_download_puf.R= :: Download the PUF SAS data files.
-  - In the first time to run the data, change the variable ~neweeks~ from ~NULL~
-    to ~1:N~ where ~N~ is the latest week when the PUF is available, e.g.,
-    ~1:24~ from weeks 1 to 24.
-  - To avoid repeating the whole downloading process whenever new data are
-    available, you can change ~oldweeks~ to ~neweeks~ and re-define ~newweeks~
-    to the latest week, e.g., ~oldweeks = 1:24~ and ~newweeks = 25:27~.
   - The output of this file is a ~.rds~ file in the =output_data= folder.
   - The file also checks the availability of variables in each week.
 
