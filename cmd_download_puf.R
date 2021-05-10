@@ -1,25 +1,58 @@
-source("cmd_initiate.R")
+## source("cmd_initiate.R")
 
 ## Downloading ----------------------------------------------------------------
-## Change oldweek from NULL to newweek
-## and newweek to NULL when finishing updating
-neweeks <- NULL
-oldweeks <- 1:27
 
-## increase timeout if needed
-options(timeout = 150)
-dd <- "input_data/pulse/sas"
-if (!dir.exists(dd)) dir.create(dd)
-map(neweeks,
-    function(wk) {
-      ## define the downloading url
-      yy <- if (wk <= 21) 2020 else 2021
-      f1 <- sprintf(
-        "https://www2.census.gov/programs-surveys/demo/datasets/hhp/%d/wk%d/HPS_Week%02d_PUF_SAS.zip",
-        yy, wk, wk)
-      f2 <- str_c("week", wk, ".zip")
-      download.file(f1, destfile = file.path(dd, f2))
-    })
+dd <- "input_data/pulse"
+if (!dir.exists(dd)) dir.create(dd, recursive = TRUE)
+
+## This is a helper function to handle downloading error
+handle_download_file <- function(f1, f2) {
+  tryCatch(
+    error = function(e) conditionMessage(e),
+    download.file(f1, destfile = f2)
+  )
+}
+
+success <- vector(length = length(neweeks))
+for (i in seq_along(neweeks)) {
+  ## format the url and destination file
+  wk <- neweeks[i]
+  yy <- if (wk <= 21) 2020 else 2021
+  f1 <- sprintf(
+    "https://www2.census.gov/programs-surveys/demo/datasets/hhp/%d/wk%d/HPS_Week%02d_PUF_SAS.zip",
+    yy, wk, wk)
+  f2 <- file.path(dd, str_c("week", wk, ".zip"))
+  ## set the initial timeout
+  ot <- 360
+  options(timeout = ot)
+  flag <- TRUE
+  while (flag) {
+    ## download a file
+    e <- handle_download_file(f1, f2)
+    ## if the downloading fails, extend the timeout with additional 360 seconds
+    ## If the timeout greater than 1080 seconds, stop the downloading and go
+    ## ahead with the next week.
+    if (e != 0) {
+      ot <- ot + 360
+      if (ot > 1080) {
+        success[i] <- 0
+        message("Failed!")
+        break
+      }
+      options(timeout = ot)
+    } else {
+      success[i] <- 1
+      message("Done!")
+      flag <- FALSE
+    }
+  }
+}
+
+## An error message for weeks not being downloaded.
+if (any(success == 0)) {
+  s <- glue::glue("Downloading weeks {paste0(neweeks[success == 0], collapse = ',')} failed. Manually download them.")
+  stop(s, call. = FALSE)
+}
 
 
 ## read all downloaded data for each week ------------------------------------
@@ -58,9 +91,14 @@ write_csv(tb.vars, "documentation/variable_available.csv")
 df.puf <- bind_rows(df.puf)
 ## change the variable names to the lower case
 names(df.puf) <- str_to_lower(names(df.puf))
-## define the new file name
-f.out <- file.path("output_data", sprintf("hps_individual_week%d_%d.rds", 1, max(allweeks)))
-saveRDS(df.puf, f.out)
 
-## f.out <- file.path("output_data", sprintf("hps_individual_week%d_%d.csv", 1, max(allweeks)))
-## write_csv(df.puf, path = f.out)
+
+if (output.format == "csv") {
+  f.out <- file.path("output_data", sprintf("hps_individual_week%d_%d.csv", 1, max(allweeks)))
+  write_csv(df.puf, file = f.out)
+} else {
+  ## define the new file name
+  f.out <- file.path("output_data", sprintf("hps_individual_week%d_%d.rds", 1, max(allweeks)))
+  saveRDS(df.puf, f.out)
+}
+
