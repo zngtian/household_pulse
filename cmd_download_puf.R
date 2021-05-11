@@ -1,4 +1,5 @@
 ## source("cmd_initiate.R")
+options(warn = 1)
 
 ## Downloading ----------------------------------------------------------------
 

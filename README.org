@@ -7,9 +7,9 @@ This project is to download the Public Use Files (PUF) of the Household Pulse Su
 from the Census Bureau. The link to the PUF is
 https://www.census.gov/programs-surveys/household-pulse-survey/datasets.html.
 
-To download the all PUF data files, just run =cmd_download_puf.R=. The code will
-download the zipped SAS file for each week, unzip and read the data into R, and
-save the output data.
+# To download the all PUF data files, just run =cmd_download_puf.R=. The code will
+# download the zipped SAS file for each week, unzip and read the data into R, and
+# save the output data.
 
 * Explanation of the R code.
 - [[file:master.R][master.R]] :: Run this file to complete the whole process.
